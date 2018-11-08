@@ -188,10 +188,6 @@ import statsmodels.api as sm
 from statsmodels.formula.api import ols
 ```
 
-    /Users/lore.dirick/anaconda3/lib/python3.6/site-packages/statsmodels/compat/pandas.py:56: FutureWarning: The pandas.core.datetools module is deprecated and will be removed in a future version. Please use the pandas.tseries module instead.
-      from pandas.core import datetools
-
-
 
 ```python
 formula = "mpg ~ acceleration+weight+orig_1+orig_2+orig_3"
@@ -229,10 +225,10 @@ model.summary()
   <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>   256.7</td> 
 </tr>
 <tr>
-  <th>Date:</th>             <td>Sun, 14 Oct 2018</td> <th>  Prob (F-statistic):</th> <td>1.86e-107</td>
+  <th>Date:</th>             <td>Thu, 08 Nov 2018</td> <th>  Prob (F-statistic):</th> <td>1.86e-107</td>
 </tr>
 <tr>
-  <th>Time:</th>                 <td>19:34:05</td>     <th>  Log-Likelihood:    </th> <td> -1107.2</td> 
+  <th>Time:</th>                 <td>13:56:09</td>     <th>  Log-Likelihood:    </th> <td> -1107.2</td> 
 </tr>
 <tr>
   <th>No. Observations:</th>      <td>   392</td>      <th>  AIC:               </th> <td>   2224.</td> 
@@ -287,7 +283,7 @@ model.summary()
 
 
 
-Or even easier, simply use the `.OLS`-method from statsmodels.api. The advantage is that you don't have to create the summation string. Important to note, however, is that the intercept term is not included by default, so you have to make sure you manipulate your `predictors` dataframe so it inclused a constant term. You can do this using `.add_constant`.
+Or even easier, simply use the `.OLS`-method from statsmodels.api. The advantage is that you don't have to create the summation string. Important to note, however, is that the intercept term is not included by default, so you have to make sure you manipulate your `predictors` dataframe so it includes a constant term. You can do this using `.add_constant`.
 
 
 ```python
@@ -312,10 +308,10 @@ model.summary()
   <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>   256.7</td> 
 </tr>
 <tr>
-  <th>Date:</th>             <td>Sun, 14 Oct 2018</td> <th>  Prob (F-statistic):</th> <td>1.86e-107</td>
+  <th>Date:</th>             <td>Thu, 08 Nov 2018</td> <th>  Prob (F-statistic):</th> <td>1.86e-107</td>
 </tr>
 <tr>
-  <th>Time:</th>                 <td>19:34:05</td>     <th>  Log-Likelihood:    </th> <td> -1107.2</td> 
+  <th>Time:</th>                 <td>13:56:09</td>     <th>  Log-Likelihood:    </th> <td> -1107.2</td> 
 </tr>
 <tr>
   <th>No. Observations:</th>      <td>   392</td>      <th>  AIC:               </th> <td>   2224.</td> 
@@ -421,7 +417,7 @@ linreg.intercept_
 
 
 
-    21.4721642860754
+    21.472164286075383
 
 
 
@@ -450,7 +446,7 @@ The eventual result is the same. The extimates for the categorical variables are
 
 You can make sure to get the same result in both Statsmodels and Scikit-learn, by dropping out one of the `orig_`-levels. This way, you're essentially forcing the coefficient of this level to be equal to zero, and the intercepts and the other coefficients will be the same. 
 
-This is how you do it in Statsmodels:
+This is how you do it in Scikit-learn:
 
 
 ```python
@@ -478,11 +474,11 @@ linreg.intercept_
 
 
 
-    22.48260416045567
+    22.482604160455665
 
 
 
-And Scikit-learn:
+And Statsmodels:
 
 
 ```python
@@ -507,10 +503,10 @@ model.summary()
   <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>   256.7</td> 
 </tr>
 <tr>
-  <th>Date:</th>             <td>Sun, 14 Oct 2018</td> <th>  Prob (F-statistic):</th> <td>1.86e-107</td>
+  <th>Date:</th>             <td>Thu, 08 Nov 2018</td> <th>  Prob (F-statistic):</th> <td>1.86e-107</td>
 </tr>
 <tr>
-  <th>Time:</th>                 <td>19:34:06</td>     <th>  Log-Likelihood:    </th> <td> -1107.2</td> 
+  <th>Time:</th>                 <td>13:56:09</td>     <th>  Log-Likelihood:    </th> <td> -1107.2</td> 
 </tr>
 <tr>
   <th>No. Observations:</th>      <td>   392</td>      <th>  AIC:               </th> <td>   2224.</td> 
