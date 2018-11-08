@@ -478,7 +478,7 @@ linreg.intercept_
 
 
 
-And Scikit-learnStatsmodels:
+And Statsmodels:
 
 
 ```python
