@@ -12,13 +12,15 @@ You will be able to:
 
 # Statsmodels for multiple linear regression
 
-This lecture will be more of a code-along, where we will walk through a multiple linear regression model using both Statsmodels and Scikit-Learn. 
+This lecture will be more of a code-along, where you'll walk through a multiple linear regression model using both Statsmodels and Scikit-Learn. 
 
-Remember that we introduced single linear regression before, which is known as ordinary least squares. It determines a line of best fit by minimizing the sum of squares of the errors between the models predictions and the actual data. In algebra and statistics classes, this is often limited to the simple 2 variable case of $y=mx+b$, but this process can be generalized to use multiple predictive variables.
+Recall the initial regression model presented. It determines a line of best fit by minimizing the sum of squares of the errors between the models predictions and the actual data. In algebra and statistics classes, this is often limited to the simple 2 variable case of $y=mx+b$, but this process can be generalized to use multiple predictive variables.
 
 ## Auto-mpg data
 
-The code below reiterates the steps we've taken before: we've created dummies for our categorical variables and have log-transformed some of our continuous predictors. 
+The code below reiterates the steps you've seen before: 
+* creating dummy variables for each categorical feature
+* log-transforming select continuous predictors
 
 
 ```python
@@ -87,7 +89,7 @@ data_fin.info()
     memory usage: 23.4 KB
 
 
-This was the data we had until now. As we want to focus on model interpretation and still don't want to have a massive model for now, let's only inlude "acc", "horse" and the three "orig" categories in our final data.
+For now let's simplify the model and only inlude "acc", "horse" and the three "orig" categories in our final data.
 
 
 ```python
@@ -178,9 +180,7 @@ data_ols.head()
 
 ## A linear model using Statsmodels
 
-Now, let's use the statsmodels.api to run our ols on all our data. Just like for linear regression with a single predictor, you can use the formula $y \sim X$, where, with $n$ predictors, X is represented as $x_1+\ldots+x_n$.
-
-
+Now, let's use the statsmodels.api to run ols on all of the data. Just like for linear regression with a single predictor, you can use the formula $y \sim X$, where, with $n$ predictors, X is represented as $x_1+\ldots+x_n$.
 
 
 ```python
@@ -368,11 +368,11 @@ model.summary()
 
 ## Interpretation
 
-Just like for single multiple regression, the coefficients for our model should be interpreted as "how does Y change for each additional unit X"? Do note that the fact that we transformed X, interpretation can sometimes require a little more attention. In fact, as the model is built on the transformed X, the actual relationship is "how does Y change for each additional unit X'", where X' is the (log- and min-max, standardized,...) transformed data matrix.
+Just like for single multiple regression, the coefficients for the model should be interpreted as "how does Y change for each additional unit X"? However, do note that the since X was transformed, interpretation can sometimes require a little more attention. In fact, as the model is built on the transformed X, the actual relationship is "how does Y change for each additional unit X'", where X' is the (log- and min-max, standardized,...) transformed data matrix.
 
 ## Linear regression using scikit learn
 
-You can also repeat this process using Scikit-Learn. The code to do this can be found below. The Scikit-learn is generally known for its machine learning functionalities and generally very popular when it comes to building a clear data science workflow. It is also commonly used by data scientists for regression. The disadvantage of scikit learn compared to Statsmodels is that it doesn't have some statistical metrics like the p-values of the parameter estimates readily available. For a more ad-hoc comparison of Scikit-learn and statsmodels, you can read this blogpost: https://blog.thedataincubator.com/2017/11/scikit-learn-vs-statsmodels/.
+You can also repeat this process using scikit-learn. The code to do this can be found below. The scikit-learn package is generally known for its machine learning functionalities and generally very popular when it comes to building a clear data science workflow. It is also commonly used by data scientists for regression. The disadvantage of scikit-learn compared to statsmodels is that it doesn't have some statistical metrics like the p-values of the parameter estimates readily available. For a more ad-hoc comparison of scikit-learn and statsmodels, you can read this blogpost: https://blog.thedataincubator.com/2017/11/scikit-learn-vs-statsmodels/.
 
 
 ```python
@@ -436,7 +436,7 @@ You might have noticed that running our regression in Scikit-learn and Statsmode
 | orig_3 | 6.3785|	1.0104|
 
 These models return equivalent results! 
-We'll use an example to illustrate this. Remember that minmax-scaling was used on acceleration, and standardization on log(weight). 
+ 
 
 Let's assume a particular observation with a value of 0.5 for both acceleration and weight after transformation, and let's assume that the origin of the car = `orig_3`. The predicted value for mpg for this particular value will then be equal to:
 - 16.1041 + 5.0494 \* 0.5+ (-5.8764) \* 0.5 + 6.3785 = 22.0691 according to the Statsmodels 
@@ -560,4 +560,4 @@ model.summary()
 
 ## Summary
 
-Congrats! You now know how to build a linear regression model with multiple predictors in both Scikit-Learn and Statsmodels. Before we discuss the model metrics in detail, let's go ahead and try out this model on the Boston Housing Data Set!
+Congrats! You now know how to build a linear regression model with multiple predictors in both Scikit-Learn and statsmodels!
