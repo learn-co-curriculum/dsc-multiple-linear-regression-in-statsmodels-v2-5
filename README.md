@@ -10,7 +10,7 @@ You will be able to:
 * Introduce Statsmodels for multiple regression
 * Present alternatives for running regression in Scikit Learn
 
-# Statsmodels for multiple linear regression
+## Statsmodels for multiple linear regression
 
 This lecture will be more of a code-along, where you'll walk through a multiple linear regression model using both Statsmodels and Scikit-Learn. 
 
@@ -442,7 +442,7 @@ Let's assume a particular observation with a value of 0.5 for both acceleration 
 - 16.1041 + 5.0494 \* 0.5+ (-5.8764) \* 0.5 + 6.3785 = 22.0691 according to the Statsmodels 
 - 21.4722 + 5.0494 \* 0.5+ (-5.8764) \* 0.5 + 1.0104 = 22.0691 according to the Scikit-learn model
 
-The eventual result is the same. The extimates for the categorical variables are the same "up to a constant", the difference between the categorical variables, in this case 5.3681, is added in the intercept!
+The eventual result is the same. The estimates for the categorical variables are the same "up to a constant", the difference between the categorical variables, in this case 5.3681, is added in the intercept!
 
 You can make sure to get the same result in both Statsmodels and Scikit-learn, by dropping out one of the `orig_`-levels. This way, you're essentially forcing the coefficient of this level to be equal to zero, and the intercepts and the other coefficients will be the same. 
 
