@@ -44,9 +44,9 @@ data_fin["acc"]= scaled_acc
 data_fin["disp"]= scaled_disp
 data_fin["horse"] = scaled_horse
 data_fin["weight"] = scaled_weight
-cyl_dummies = pd.get_dummies(data["cylinders"], prefix="cyl")
-yr_dummies = pd.get_dummies(data["model year"], prefix="yr")
-orig_dummies = pd.get_dummies(data["origin"], prefix="orig")
+cyl_dummies = pd.get_dummies(data["cylinders"], prefix="cyl", drop_first=True)
+yr_dummies = pd.get_dummies(data["model year"], prefix="yr", drop_first=True)
+orig_dummies = pd.get_dummies(data["origin"], prefix="orig", drop_first=True)
 mpg = data["mpg"]
 data_fin = pd.concat([mpg, data_fin, cyl_dummies, yr_dummies, orig_dummies], axis=1)
 ```
@@ -58,18 +58,16 @@ data_fin.info()
 
     <class 'pandas.core.frame.DataFrame'>
     RangeIndex: 392 entries, 0 to 391
-    Data columns (total 26 columns):
+    Data columns (total 23 columns):
     mpg       392 non-null float64
     acc       392 non-null float64
     disp      392 non-null float64
     horse     392 non-null float64
     weight    392 non-null float64
-    cyl_3     392 non-null uint8
     cyl_4     392 non-null uint8
     cyl_5     392 non-null uint8
     cyl_6     392 non-null uint8
     cyl_8     392 non-null uint8
-    yr_70     392 non-null uint8
     yr_71     392 non-null uint8
     yr_72     392 non-null uint8
     yr_73     392 non-null uint8
@@ -82,11 +80,10 @@ data_fin.info()
     yr_80     392 non-null uint8
     yr_81     392 non-null uint8
     yr_82     392 non-null uint8
-    orig_1    392 non-null uint8
     orig_2    392 non-null uint8
     orig_3    392 non-null uint8
-    dtypes: float64(5), uint8(21)
-    memory usage: 23.4 KB
+    dtypes: float64(5), uint8(18)
+    memory usage: 22.3 KB
 
 
 For now let's simplify the model and only inlude "acc", "horse" and the three "orig" categories in our final data.
@@ -121,7 +118,6 @@ data_ols.head()
       <th>mpg</th>
       <th>acceleration</th>
       <th>weight</th>
-      <th>orig_1</th>
       <th>orig_2</th>
       <th>orig_3</th>
     </tr>
@@ -132,7 +128,6 @@ data_ols.head()
       <td>18.0</td>
       <td>0.238095</td>
       <td>0.720986</td>
-      <td>1</td>
       <td>0</td>
       <td>0</td>
     </tr>
@@ -141,7 +136,6 @@ data_ols.head()
       <td>15.0</td>
       <td>0.208333</td>
       <td>0.908047</td>
-      <td>1</td>
       <td>0</td>
       <td>0</td>
     </tr>
@@ -150,7 +144,6 @@ data_ols.head()
       <td>18.0</td>
       <td>0.178571</td>
       <td>0.651205</td>
-      <td>1</td>
       <td>0</td>
       <td>0</td>
     </tr>
@@ -159,7 +152,6 @@ data_ols.head()
       <td>16.0</td>
       <td>0.238095</td>
       <td>0.648095</td>
-      <td>1</td>
       <td>0</td>
       <td>0</td>
     </tr>
@@ -168,7 +160,6 @@ data_ols.head()
       <td>17.0</td>
       <td>0.148810</td>
       <td>0.664652</td>
-      <td>1</td>
       <td>0</td>
       <td>0</td>
     </tr>
@@ -190,7 +181,7 @@ from statsmodels.formula.api import ols
 
 
 ```python
-formula = "mpg ~ acceleration+weight+orig_1+orig_2+orig_3"
+formula = "mpg ~ acceleration+weight+orig_2+orig_3"
 model = ols(formula= formula, data=data_ols).fit()
 ```
 
@@ -225,10 +216,10 @@ model.summary()
   <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>   256.7</td> 
 </tr>
 <tr>
-  <th>Date:</th>             <td>Thu, 08 Nov 2018</td> <th>  Prob (F-statistic):</th> <td>1.86e-107</td>
+  <th>Date:</th>             <td>Wed, 21 Aug 2019</td> <th>  Prob (F-statistic):</th> <td>1.86e-107</td>
 </tr>
 <tr>
-  <th>Time:</th>                 <td>13:56:09</td>     <th>  Log-Likelihood:    </th> <td> -1107.2</td> 
+  <th>Time:</th>                 <td>10:28:18</td>     <th>  Log-Likelihood:    </th> <td> -1107.2</td> 
 </tr>
 <tr>
   <th>No. Observations:</th>      <td>   392</td>      <th>  AIC:               </th> <td>   2224.</td> 
@@ -248,7 +239,7 @@ model.summary()
         <td></td>          <th>coef</th>     <th>std err</th>      <th>t</th>      <th>P>|t|</th>  <th>[0.025</th>    <th>0.975]</th>  
 </tr>
 <tr>
-  <th>Intercept</th>    <td>   16.1041</td> <td>    0.509</td> <td>   31.636</td> <td> 0.000</td> <td>   15.103</td> <td>   17.105</td>
+  <th>Intercept</th>    <td>   20.7608</td> <td>    0.688</td> <td>   30.181</td> <td> 0.000</td> <td>   19.408</td> <td>   22.113</td>
 </tr>
 <tr>
   <th>acceleration</th> <td>    5.0494</td> <td>    1.389</td> <td>    3.634</td> <td> 0.000</td> <td>    2.318</td> <td>    7.781</td>
@@ -257,13 +248,10 @@ model.summary()
   <th>weight</th>       <td>   -5.8764</td> <td>    0.282</td> <td>  -20.831</td> <td> 0.000</td> <td>   -6.431</td> <td>   -5.322</td>
 </tr>
 <tr>
-  <th>orig_1</th>       <td>    4.6566</td> <td>    0.363</td> <td>   12.839</td> <td> 0.000</td> <td>    3.944</td> <td>    5.370</td>
+  <th>orig_2</th>       <td>    0.4124</td> <td>    0.639</td> <td>    0.645</td> <td> 0.519</td> <td>   -0.844</td> <td>    1.669</td>
 </tr>
 <tr>
-  <th>orig_2</th>       <td>    5.0690</td> <td>    0.454</td> <td>   11.176</td> <td> 0.000</td> <td>    4.177</td> <td>    5.961</td>
-</tr>
-<tr>
-  <th>orig_3</th>       <td>    6.3785</td> <td>    0.430</td> <td>   14.829</td> <td> 0.000</td> <td>    5.533</td> <td>    7.224</td>
+  <th>orig_3</th>       <td>    1.7218</td> <td>    0.653</td> <td>    2.638</td> <td> 0.009</td> <td>    0.438</td> <td>    3.005</td>
 </tr>
 </table>
 <table class="simpletable">
@@ -277,9 +265,9 @@ model.summary()
   <th>Skew:</th>          <td> 0.648</td> <th>  Prob(JB):          </th> <td>6.95e-13</td>
 </tr>
 <tr>
-  <th>Kurtosis:</th>      <td> 4.322</td> <th>  Cond. No.          </th> <td>2.18e+15</td>
+  <th>Kurtosis:</th>      <td> 4.322</td> <th>  Cond. No.          </th> <td>    8.47</td>
 </tr>
-</table>
+</table><br/><br/>Warnings:<br/>[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.
 
 
 
@@ -308,10 +296,10 @@ model.summary()
   <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>   256.7</td> 
 </tr>
 <tr>
-  <th>Date:</th>             <td>Thu, 08 Nov 2018</td> <th>  Prob (F-statistic):</th> <td>1.86e-107</td>
+  <th>Date:</th>             <td>Wed, 21 Aug 2019</td> <th>  Prob (F-statistic):</th> <td>1.86e-107</td>
 </tr>
 <tr>
-  <th>Time:</th>                 <td>13:56:09</td>     <th>  Log-Likelihood:    </th> <td> -1107.2</td> 
+  <th>Time:</th>                 <td>10:28:55</td>     <th>  Log-Likelihood:    </th> <td> -1107.2</td> 
 </tr>
 <tr>
   <th>No. Observations:</th>      <td>   392</td>      <th>  AIC:               </th> <td>   2224.</td> 
@@ -331,7 +319,7 @@ model.summary()
         <td></td>          <th>coef</th>     <th>std err</th>      <th>t</th>      <th>P>|t|</th>  <th>[0.025</th>    <th>0.975]</th>  
 </tr>
 <tr>
-  <th>const</th>        <td>   16.1041</td> <td>    0.509</td> <td>   31.636</td> <td> 0.000</td> <td>   15.103</td> <td>   17.105</td>
+  <th>const</th>        <td>   20.7608</td> <td>    0.688</td> <td>   30.181</td> <td> 0.000</td> <td>   19.408</td> <td>   22.113</td>
 </tr>
 <tr>
   <th>acceleration</th> <td>    5.0494</td> <td>    1.389</td> <td>    3.634</td> <td> 0.000</td> <td>    2.318</td> <td>    7.781</td>
@@ -340,13 +328,10 @@ model.summary()
   <th>weight</th>       <td>   -5.8764</td> <td>    0.282</td> <td>  -20.831</td> <td> 0.000</td> <td>   -6.431</td> <td>   -5.322</td>
 </tr>
 <tr>
-  <th>orig_1</th>       <td>    4.6566</td> <td>    0.363</td> <td>   12.839</td> <td> 0.000</td> <td>    3.944</td> <td>    5.370</td>
+  <th>orig_2</th>       <td>    0.4124</td> <td>    0.639</td> <td>    0.645</td> <td> 0.519</td> <td>   -0.844</td> <td>    1.669</td>
 </tr>
 <tr>
-  <th>orig_2</th>       <td>    5.0690</td> <td>    0.454</td> <td>   11.176</td> <td> 0.000</td> <td>    4.177</td> <td>    5.961</td>
-</tr>
-<tr>
-  <th>orig_3</th>       <td>    6.3785</td> <td>    0.430</td> <td>   14.829</td> <td> 0.000</td> <td>    5.533</td> <td>    7.224</td>
+  <th>orig_3</th>       <td>    1.7218</td> <td>    0.653</td> <td>    2.638</td> <td> 0.009</td> <td>    0.438</td> <td>    3.005</td>
 </tr>
 </table>
 <table class="simpletable">
@@ -360,9 +345,9 @@ model.summary()
   <th>Skew:</th>          <td> 0.648</td> <th>  Prob(JB):          </th> <td>6.95e-13</td>
 </tr>
 <tr>
-  <th>Kurtosis:</th>      <td> 4.322</td> <th>  Cond. No.          </th> <td>2.18e+15</td>
+  <th>Kurtosis:</th>      <td> 4.322</td> <th>  Cond. No.          </th> <td>    8.47</td>
 </tr>
-</table>
+</table><br/><br/>Warnings:<br/>[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.
 
 
 
@@ -389,7 +374,7 @@ linreg.fit(predictors, y)
 
 
 
-    LinearRegression(copy_X=True, fit_intercept=True, n_jobs=1, normalize=False)
+    LinearRegression(copy_X=True, fit_intercept=True, n_jobs=None, normalize=False)
 
 
 
@@ -402,7 +387,7 @@ linreg.coef_
 
 
 
-    array([ 5.04941007, -5.87640551, -0.71140721, -0.29903267,  1.01043987])
+    array([ 5.04941007, -5.87640551,  0.41237454,  1.72184708])
 
 
 
@@ -417,144 +402,7 @@ linreg.intercept_
 
 
 
-    21.472164286075383
-
-
-
-## Why are the coefficients different in scikit learn vs Statsmodels?
-
-You might have noticed that running our regression in Scikit-learn and Statsmodels returned (partially) different parameter estimates. Let's put them side to side:
-
-
-|  | Statsmodels | Scikit-learn  |
-|-------|------|------|
-|  intercept| 16.1041|21.4722|
-| acceleration | 5.0494| 5.0494|
-| weight | -5.8764|-5.8764|
-| orig_1 | 4.6566|-0.7114|
-| orig_2 | 5.0690|-0.2990|
-| orig_3 | 6.3785|	1.0104|
-
-These models return equivalent results! 
- 
-
-Let's assume a particular observation with a value of 0.5 for both acceleration and weight after transformation, and let's assume that the origin of the car = `orig_3`. The predicted value for mpg for this particular value will then be equal to:
-- 16.1041 + 5.0494 \* 0.5+ (-5.8764) \* 0.5 + 6.3785 = 22.0691 according to the Statsmodels 
-- 21.4722 + 5.0494 \* 0.5+ (-5.8764) \* 0.5 + 1.0104 = 22.0691 according to the Scikit-learn model
-
-The eventual result is the same. The estimates for the categorical variables are the same "up to a constant", the difference between the categorical variables, in this case 5.3681, is added in the intercept!
-
-You can make sure to get the same result in both Statsmodels and Scikit-learn, by dropping out one of the `orig_`-levels. This way, you're essentially forcing the coefficient of this level to be equal to zero, and the intercepts and the other coefficients will be the same. 
-
-This is how you do it in Scikit-learn:
-
-
-```python
-predictors = predictors.drop("orig_3",axis=1)
-```
-
-
-```python
-linreg.fit(predictors, y)
-linreg.coef_
-```
-
-
-
-
-    array([ 5.04941007, -5.87640551, -1.72184708, -1.30947254])
-
-
-
-
-```python
-linreg.intercept_
-```
-
-
-
-
-    22.482604160455665
-
-
-
-And Statsmodels:
-
-
-```python
-pred_sum = "+".join(predictors.columns)
-formula = outcome + "~" + pred_sum
-model = ols(formula= formula, data=data_ols).fit()
-model.summary()
-```
-
-
-
-
-<table class="simpletable">
-<caption>OLS Regression Results</caption>
-<tr>
-  <th>Dep. Variable:</th>           <td>mpg</td>       <th>  R-squared:         </th> <td>   0.726</td> 
-</tr>
-<tr>
-  <th>Model:</th>                   <td>OLS</td>       <th>  Adj. R-squared:    </th> <td>   0.723</td> 
-</tr>
-<tr>
-  <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>   256.7</td> 
-</tr>
-<tr>
-  <th>Date:</th>             <td>Thu, 08 Nov 2018</td> <th>  Prob (F-statistic):</th> <td>1.86e-107</td>
-</tr>
-<tr>
-  <th>Time:</th>                 <td>13:56:09</td>     <th>  Log-Likelihood:    </th> <td> -1107.2</td> 
-</tr>
-<tr>
-  <th>No. Observations:</th>      <td>   392</td>      <th>  AIC:               </th> <td>   2224.</td> 
-</tr>
-<tr>
-  <th>Df Residuals:</th>          <td>   387</td>      <th>  BIC:               </th> <td>   2244.</td> 
-</tr>
-<tr>
-  <th>Df Model:</th>              <td>     4</td>      <th>                     </th>     <td> </td>    
-</tr>
-<tr>
-  <th>Covariance Type:</th>      <td>nonrobust</td>    <th>                     </th>     <td> </td>    
-</tr>
-</table>
-<table class="simpletable">
-<tr>
-        <td></td>          <th>coef</th>     <th>std err</th>      <th>t</th>      <th>P>|t|</th>  <th>[0.025</th>    <th>0.975]</th>  
-</tr>
-<tr>
-  <th>Intercept</th>    <td>   22.4826</td> <td>    0.789</td> <td>   28.504</td> <td> 0.000</td> <td>   20.932</td> <td>   24.033</td>
-</tr>
-<tr>
-  <th>acceleration</th> <td>    5.0494</td> <td>    1.389</td> <td>    3.634</td> <td> 0.000</td> <td>    2.318</td> <td>    7.781</td>
-</tr>
-<tr>
-  <th>weight</th>       <td>   -5.8764</td> <td>    0.282</td> <td>  -20.831</td> <td> 0.000</td> <td>   -6.431</td> <td>   -5.322</td>
-</tr>
-<tr>
-  <th>orig_1</th>       <td>   -1.7218</td> <td>    0.653</td> <td>   -2.638</td> <td> 0.009</td> <td>   -3.005</td> <td>   -0.438</td>
-</tr>
-<tr>
-  <th>orig_2</th>       <td>   -1.3095</td> <td>    0.688</td> <td>   -1.903</td> <td> 0.058</td> <td>   -2.662</td> <td>    0.043</td>
-</tr>
-</table>
-<table class="simpletable">
-<tr>
-  <th>Omnibus:</th>       <td>37.427</td> <th>  Durbin-Watson:     </th> <td>   0.840</td>
-</tr>
-<tr>
-  <th>Prob(Omnibus):</th> <td> 0.000</td> <th>  Jarque-Bera (JB):  </th> <td>  55.989</td>
-</tr>
-<tr>
-  <th>Skew:</th>          <td> 0.648</td> <th>  Prob(JB):          </th> <td>6.95e-13</td>
-</tr>
-<tr>
-  <th>Kurtosis:</th>      <td> 4.322</td> <th>  Cond. No.          </th> <td>    9.59</td>
-</tr>
-</table>
+    20.76075708082186
 
 
 
