@@ -8,11 +8,11 @@ In this lecture, you'll learn how to run your first multiple linear regression m
 ## Objectives
 You will be able to:
 * Introduce Statsmodels for multiple regression
-* Present alternatives for running regression in Scikit Learn
+* Present alternatives for running regression in Scikit-Learn
 
 ## Statsmodels for multiple linear regression
 
-This lecture will be more of a code-along, where you'll walk through a multiple linear regression model using both Statsmodels and Scikit-Learn. 
+This lesson will be more of a code-along, where you'll walk through a multiple linear regression model using both Statsmodels and Scikit-Learn. 
 
 Recall the initial regression model presented. It determines a line of best fit by minimizing the sum of squares of the errors between the models predictions and the actual data. In algebra and statistics classes, this is often limited to the simple 2 variable case of $y=mx+b$, but this process can be generalized to use multiple predictive variables.
 
@@ -26,13 +26,13 @@ The code below reiterates the steps you've seen before:
 ```python
 import pandas as pd
 import numpy as np
-data = pd.read_csv("auto-mpg.csv") 
+data = pd.read_csv('auto-mpg.csv') 
 data['horsepower'].astype(str).astype(int)
 
-acc = data["acceleration"]
-logdisp = np.log(data["displacement"])
-loghorse = np.log(data["horsepower"])
-logweight= np.log(data["weight"])
+acc = data['acceleration']
+logdisp = np.log(data['displacement'])
+loghorse = np.log(data['horsepower'])
+logweight= np.log(data['weight'])
 
 scaled_acc = (acc-min(acc))/(max(acc)-min(acc))	
 scaled_disp = (logdisp-np.mean(logdisp))/np.sqrt(np.var(logdisp))
@@ -40,14 +40,14 @@ scaled_horse = (loghorse-np.mean(loghorse))/(max(loghorse)-min(loghorse))
 scaled_weight= (logweight-np.mean(logweight))/np.sqrt(np.var(logweight))
 
 data_fin = pd.DataFrame([])
-data_fin["acc"]= scaled_acc
-data_fin["disp"]= scaled_disp
-data_fin["horse"] = scaled_horse
-data_fin["weight"] = scaled_weight
-cyl_dummies = pd.get_dummies(data["cylinders"], prefix="cyl", drop_first=True)
-yr_dummies = pd.get_dummies(data["model year"], prefix="yr", drop_first=True)
-orig_dummies = pd.get_dummies(data["origin"], prefix="orig", drop_first=True)
-mpg = data["mpg"]
+data_fin['acc'] = scaled_acc
+data_fin['disp'] = scaled_disp
+data_fin['horse'] = scaled_horse
+data_fin['weight'] = scaled_weight
+cyl_dummies = pd.get_dummies(data['cylinders'], prefix='cyl', drop_first=True)
+yr_dummies = pd.get_dummies(data['model year'], prefix='yr', drop_first=True)
+orig_dummies = pd.get_dummies(data['origin'], prefix='orig', drop_first=True)
+mpg = data['mpg']
 data_fin = pd.concat([mpg, data_fin, cyl_dummies, yr_dummies, orig_dummies], axis=1)
 ```
 
@@ -86,11 +86,11 @@ data_fin.info()
     memory usage: 22.3 KB
 
 
-For now let's simplify the model and only inlude "acc", "horse" and the three "orig" categories in our final data.
+For now, let's simplify the model and only inlude `'acc'`, `'horse'` and the three `'orig'` categories in our final data.
 
 
 ```python
-data_ols = pd.concat([mpg, scaled_acc, scaled_weight, orig_dummies], axis= 1)
+data_ols = pd.concat([mpg, scaled_acc, scaled_weight, orig_dummies], axis=1)
 data_ols.head()
 ```
 
@@ -171,7 +171,7 @@ data_ols.head()
 
 ## A linear model using Statsmodels
 
-Now, let's use the statsmodels.api to run ols on all of the data. Just like for linear regression with a single predictor, you can use the formula $y \sim X$, where, with $n$ predictors, X is represented as $x_1+\ldots+x_n$.
+Now, let's use the `statsmodels.api` to run ols on all of the data. Just like for linear regression with a single predictor, you can use the formula $y \sim X$, where, with $n$ predictors, X is represented as $x_1+\ldots+x_n$.
 
 
 ```python
@@ -181,23 +181,23 @@ from statsmodels.formula.api import ols
 
 
 ```python
-formula = "mpg ~ acceleration+weight+orig_2+orig_3"
-model = ols(formula= formula, data=data_ols).fit()
+formula = 'mpg ~ acceleration+weight+orig_2+orig_3'
+model = ols(formula=formula, data=data_ols).fit()
 ```
 
-Having to type out all the predictors isn't practical when you have many. Another better way than to type them all out is to seperate out the outcome variable "mpg" out of your data frame, and use the a `"+".join()` command on the predictors, as done below:
+Having to type out all the predictors isn't practical when you have many. Another better way than to type them all out is to seperate out the outcome variable `'mpg'` out of your DataFrame, and use the a `'+'.join()` command on the predictors, as done below:
 
 
 ```python
 outcome = 'mpg'
 predictors = data_ols.drop('mpg', axis=1)
-pred_sum = "+".join(predictors.columns)
-formula = outcome + "~" + pred_sum
+pred_sum = '+'.join(predictors.columns)
+formula = outcome + '~' + pred_sum
 ```
 
 
 ```python
-model = ols(formula= formula, data=data_ols).fit()
+model = ols(formula=formula, data=data_ols).fit()
 model.summary()
 ```
 
@@ -216,10 +216,10 @@ model.summary()
   <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>   256.7</td> 
 </tr>
 <tr>
-  <th>Date:</th>             <td>Wed, 21 Aug 2019</td> <th>  Prob (F-statistic):</th> <td>1.86e-107</td>
+  <th>Date:</th>             <td>Thu, 26 Sep 2019</td> <th>  Prob (F-statistic):</th> <td>1.86e-107</td>
 </tr>
 <tr>
-  <th>Time:</th>                 <td>10:28:18</td>     <th>  Log-Likelihood:    </th> <td> -1107.2</td> 
+  <th>Time:</th>                 <td>12:01:03</td>     <th>  Log-Likelihood:    </th> <td> -1107.2</td> 
 </tr>
 <tr>
   <th>No. Observations:</th>      <td>   392</td>      <th>  AIC:               </th> <td>   2224.</td> 
@@ -271,7 +271,7 @@ model.summary()
 
 
 
-Or even easier, simply use the `.OLS`-method from statsmodels.api. The advantage is that you don't have to create the summation string. Important to note, however, is that the intercept term is not included by default, so you have to make sure you manipulate your `predictors` dataframe so it includes a constant term. You can do this using `.add_constant`.
+Or even easier, simply use the `ols()` function from `statsmodels.api`. The advantage is that you don't have to create the summation string. Important to note, however, is that the intercept term is not included by default, so you have to make sure you manipulate your `predictors` DataFrame so it includes a constant term. You can do this using `.add_constant`.
 
 
 ```python
@@ -280,6 +280,10 @@ predictors_int = sm.add_constant(predictors)
 model = sm.OLS(data['mpg'],predictors_int).fit()
 model.summary()
 ```
+
+    //anaconda3/lib/python3.7/site-packages/numpy/core/fromnumeric.py:2389: FutureWarning: Method .ptp is deprecated and will be removed in a future version. Use numpy.ptp instead.
+      return ptp(axis=axis, out=out, **kwargs)
+
 
 
 
@@ -296,10 +300,10 @@ model.summary()
   <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>   256.7</td> 
 </tr>
 <tr>
-  <th>Date:</th>             <td>Wed, 21 Aug 2019</td> <th>  Prob (F-statistic):</th> <td>1.86e-107</td>
+  <th>Date:</th>             <td>Thu, 26 Sep 2019</td> <th>  Prob (F-statistic):</th> <td>1.86e-107</td>
 </tr>
 <tr>
-  <th>Time:</th>                 <td>10:28:55</td>     <th>  Log-Likelihood:    </th> <td> -1107.2</td> 
+  <th>Time:</th>                 <td>12:01:03</td>     <th>  Log-Likelihood:    </th> <td> -1107.2</td> 
 </tr>
 <tr>
   <th>No. Observations:</th>      <td>   392</td>      <th>  AIC:               </th> <td>   2224.</td> 
@@ -357,7 +361,7 @@ Just like for single multiple regression, the coefficients for the model should 
 
 ## Linear regression using scikit learn
 
-You can also repeat this process using scikit-learn. The code to do this can be found below. The scikit-learn package is generally known for its machine learning functionalities and generally very popular when it comes to building a clear data science workflow. It is also commonly used by data scientists for regression. The disadvantage of scikit-learn compared to statsmodels is that it doesn't have some statistical metrics like the p-values of the parameter estimates readily available. For a more ad-hoc comparison of scikit-learn and statsmodels, you can read this blogpost: https://blog.thedataincubator.com/2017/11/scikit-learn-vs-statsmodels/.
+You can also repeat this process using scikit-learn. The code to do this can be found below. The scikit-learn package is known for its machine learning functionalities and generally very popular when it comes to building a clear data science workflow. It is also commonly used by Data Scientists for regression. The disadvantage of scikit-learn compared to statsmodels is that it doesn't have some statistical metrics like the p-values of the parameter estimates readily available. For a more ad-hoc comparison of scikit-learn and statsmodels, you can read this blogpost: https://blog.thedataincubator.com/2017/11/scikit-learn-vs-statsmodels/.
 
 
 ```python
@@ -391,7 +395,7 @@ linreg.coef_
 
 
 
-The intercept of the model is stored in the `.intercept_`-attribute.
+The intercept of the model is stored in the `.intercept_` attribute.
 
 
 ```python
@@ -402,10 +406,10 @@ linreg.intercept_
 
 
 
-    20.76075708082186
+    20.760757080821836
 
 
 
 ## Summary
 
-Congrats! You now know how to build a linear regression model with multiple predictors in both Scikit-Learn and statsmodels!
+Congrats! You now know how to build a linear regression model with multiple predictors in both Scikit-Learn and Statsmodels!
