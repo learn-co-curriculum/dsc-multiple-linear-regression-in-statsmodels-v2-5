@@ -7,20 +7,20 @@ In this lecture, you'll learn how to run your first multiple linear regression m
 
 ## Objectives
 You will be able to:
-* Introduce Statsmodels for multiple regression
-* Present alternatives for running regression in Scikit-Learn
+* Use statsmodels to fit a multiple linear regression model
+* Evaluate a linear regression model by using statistical performance metrics pertaining to overall model and specific parameters
 
 ## Statsmodels for multiple linear regression
 
-This lesson will be more of a code-along, where you'll walk through a multiple linear regression model using both Statsmodels and Scikit-Learn. 
+This lesson will be more of a code-along, where you'll walk through a multiple linear regression model using both statsmodels and scikit-learn. 
 
 Recall the initial regression model presented. It determines a line of best fit by minimizing the sum of squares of the errors between the models predictions and the actual data. In algebra and statistics classes, this is often limited to the simple 2 variable case of $y=mx+b$, but this process can be generalized to use multiple predictive variables.
 
 ## Auto-mpg data
 
 The code below reiterates the steps you've seen before: 
-* creating dummy variables for each categorical feature
-* log-transforming select continuous predictors
+* Creating dummy variables for each categorical feature
+* Log-transforming select continuous predictors
 
 
 ```python
@@ -169,9 +169,9 @@ data_ols.head()
 
 
 
-## A linear model using Statsmodels
+## A linear model using statsmodels
 
-Now, let's use the `statsmodels.api` to run ols on all of the data. Just like for linear regression with a single predictor, you can use the formula $y \sim X$, where, with $n$ predictors, X is represented as $x_1+\ldots+x_n$.
+Now, let's use the `statsmodels.api` to run OLS on all of the data. Just like for linear regression with a single predictor, you can use the formula $y \sim X$ with $n$ predictors where $X$ is represented as $x_1+\ldots+x_n$.
 
 
 ```python
@@ -357,11 +357,11 @@ model.summary()
 
 ## Interpretation
 
-Just like for single multiple regression, the coefficients for the model should be interpreted as "how does Y change for each additional unit X"? However, do note that the since X was transformed, interpretation can sometimes require a little more attention. In fact, as the model is built on the transformed X, the actual relationship is "how does Y change for each additional unit X'", where X' is the (log- and min-max, standardized,...) transformed data matrix.
+Just like for single multiple regression, the coefficients for the model should be interpreted as "how does $y$ change for each additional unit $X$"? However, do note that since $X$ was transformed, the interpretation can sometimes require a little more attention. In fact, as the model is built on the transformed $X$, the actual relationship is "how does $y$ change for each additional unit $X'$", where $X'$ is the (log- and min-max, standardized,...) transformed data matrix.
 
-## Linear regression using scikit learn
+## Linear regression using scikit-learn
 
-You can also repeat this process using scikit-learn. The code to do this can be found below. The scikit-learn package is known for its machine learning functionalities and generally very popular when it comes to building a clear data science workflow. It is also commonly used by Data Scientists for regression. The disadvantage of scikit-learn compared to statsmodels is that it doesn't have some statistical metrics like the p-values of the parameter estimates readily available. For a more ad-hoc comparison of scikit-learn and statsmodels, you can read this blogpost: https://blog.thedataincubator.com/2017/11/scikit-learn-vs-statsmodels/.
+You can also repeat this process using scikit-learn. The code to do this can be found below. The scikit-learn package is known for its machine learning functionalities and generally very popular when it comes to building a clear data science workflow. It is also commonly used by data scientists for regression. The disadvantage of scikit-learn compared to statsmodels is that it doesn't have some statistical metrics like the p-values of the parameter estimates readily available. For a more *ad-hoc* comparison of scikit-learn and statsmodels, you can read this blogpost: https://blog.thedataincubator.com/2017/11/scikit-learn-vs-statsmodels/.
 
 
 ```python
@@ -412,4 +412,4 @@ linreg.intercept_
 
 ## Summary
 
-Congrats! You now know how to build a linear regression model with multiple predictors in both Scikit-Learn and Statsmodels!
+Congrats! You now know how to build a linear regression model with multiple predictors in statsmodel and scikit-learn. You also took a look at the statistical performance metrics pertaining to the overall model and its parameters!
