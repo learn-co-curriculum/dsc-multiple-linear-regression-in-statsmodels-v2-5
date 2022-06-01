@@ -663,7 +663,7 @@ data["model year"].value_counts(sort=False)
 
 Since we know this is a dataset from 1983, it is reasonable to assume that these represent years from 1970 to 1982. Therefore a zero for model year means 1900.
 
-Thus our intercept of about -14.3 means that our model predicts that a car release in 1900 that weighed 0 lbs would have an MPG of -14.3. This is fairly nonsensical, but some intercept is needed to build a linear model. Don't worry too much about trying to draw insights from this value.
+Thus our intercept of about -14.3 means that our model predicts that a car released in 1900 that weighed 0 lbs would have an MPG of -14.3. This is fairly nonsensical, but some intercept is needed to build a linear model. Don't worry too much about trying to draw insights from this value.
 
 ### Multiple Linear Regression Visualization
 
@@ -753,7 +753,7 @@ year_ax.set_xlabel("model year");
     
 
 
-Another approach is using a component and component-plus-residual plot, also known as a [CCPR plot](https://www.itl.nist.gov/div898/software/dataplot/refman1/auxillar/ccpr.htm). A CCPR plot is a refinement of a partial _residual_ plot. A partial residual plot is a scatter plot the predictor on the x-axis and the model residuals plus the predictor times its coefficient. Then the CCPR plot also includes a line representing the fitted line of the predictor times its coefficient. Similar to a partial regression plot, you are essentially looking for the points and best-fit line to match up and form a linear relationship with non-zero slope.
+Another approach is using a component and component-plus-residual plot, also known as a [CCPR plot](https://www.itl.nist.gov/div898/software/dataplot/refman1/auxillar/ccpr.htm). A CCPR plot is a refinement of a partial _residual_ plot. A partial residual plot is a scatter plot with the predictor on the x-axis and the model residuals plus the predictor times its coefficient on the y-axis. Then the CCPR plot also includes a line representing the fitted line of the predictor times its coefficient. Similar to a partial regression plot, you are essentially looking for the points and best-fit line to match up and form a linear relationship with non-zero slope.
 
 
 ```python
