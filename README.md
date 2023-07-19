@@ -25,313 +25,48 @@ import pandas as pd
 import statsmodels.api as sm
 
 data = pd.read_csv("auto-mpg.csv")
-data
+data.head
 ```
 
 
 
 
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>mpg</th>
-      <th>cylinders</th>
-      <th>displacement</th>
-      <th>horsepower</th>
-      <th>weight</th>
-      <th>acceleration</th>
-      <th>model year</th>
-      <th>origin</th>
-      <th>car name</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>18.0</td>
-      <td>8</td>
-      <td>307.0</td>
-      <td>130</td>
-      <td>3504</td>
-      <td>12.0</td>
-      <td>70</td>
-      <td>1</td>
-      <td>chevrolet chevelle malibu</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>15.0</td>
-      <td>8</td>
-      <td>350.0</td>
-      <td>165</td>
-      <td>3693</td>
-      <td>11.5</td>
-      <td>70</td>
-      <td>1</td>
-      <td>buick skylark 320</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>18.0</td>
-      <td>8</td>
-      <td>318.0</td>
-      <td>150</td>
-      <td>3436</td>
-      <td>11.0</td>
-      <td>70</td>
-      <td>1</td>
-      <td>plymouth satellite</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>16.0</td>
-      <td>8</td>
-      <td>304.0</td>
-      <td>150</td>
-      <td>3433</td>
-      <td>12.0</td>
-      <td>70</td>
-      <td>1</td>
-      <td>amc rebel sst</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>17.0</td>
-      <td>8</td>
-      <td>302.0</td>
-      <td>140</td>
-      <td>3449</td>
-      <td>10.5</td>
-      <td>70</td>
-      <td>1</td>
-      <td>ford torino</td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-    </tr>
-    <tr>
-      <th>387</th>
-      <td>27.0</td>
-      <td>4</td>
-      <td>140.0</td>
-      <td>86</td>
-      <td>2790</td>
-      <td>15.6</td>
-      <td>82</td>
-      <td>1</td>
-      <td>ford mustang gl</td>
-    </tr>
-    <tr>
-      <th>388</th>
-      <td>44.0</td>
-      <td>4</td>
-      <td>97.0</td>
-      <td>52</td>
-      <td>2130</td>
-      <td>24.6</td>
-      <td>82</td>
-      <td>2</td>
-      <td>vw pickup</td>
-    </tr>
-    <tr>
-      <th>389</th>
-      <td>32.0</td>
-      <td>4</td>
-      <td>135.0</td>
-      <td>84</td>
-      <td>2295</td>
-      <td>11.6</td>
-      <td>82</td>
-      <td>1</td>
-      <td>dodge rampage</td>
-    </tr>
-    <tr>
-      <th>390</th>
-      <td>28.0</td>
-      <td>4</td>
-      <td>120.0</td>
-      <td>79</td>
-      <td>2625</td>
-      <td>18.6</td>
-      <td>82</td>
-      <td>1</td>
-      <td>ford ranger</td>
-    </tr>
-    <tr>
-      <th>391</th>
-      <td>31.0</td>
-      <td>4</td>
-      <td>119.0</td>
-      <td>82</td>
-      <td>2720</td>
-      <td>19.4</td>
-      <td>82</td>
-      <td>1</td>
-      <td>chevy s-10</td>
-    </tr>
-  </tbody>
-</table>
-<p>392 rows × 9 columns</p>
-</div>
+    <bound method NDFrame.head of       mpg  cylinders  displacement  horsepower  weight  acceleration  \
+    0    18.0          8         307.0         130    3504          12.0   
+    1    15.0          8         350.0         165    3693          11.5   
+    2    18.0          8         318.0         150    3436          11.0   
+    3    16.0          8         304.0         150    3433          12.0   
+    4    17.0          8         302.0         140    3449          10.5   
+    ..    ...        ...           ...         ...     ...           ...   
+    387  27.0          4         140.0          86    2790          15.6   
+    388  44.0          4          97.0          52    2130          24.6   
+    389  32.0          4         135.0          84    2295          11.6   
+    390  28.0          4         120.0          79    2625          18.6   
+    391  31.0          4         119.0          82    2720          19.4   
+    
+         model year  origin                   car name  
+    0            70       1  chevrolet chevelle malibu  
+    1            70       1          buick skylark 320  
+    2            70       1         plymouth satellite  
+    3            70       1              amc rebel sst  
+    4            70       1                ford torino  
+    ..          ...     ...                        ...  
+    387          82       1            ford mustang gl  
+    388          82       2                  vw pickup  
+    389          82       1              dodge rampage  
+    390          82       1                ford ranger  
+    391          82       1                 chevy s-10  
+    
+    [392 rows x 9 columns]>
 
 
+
+Let's look at correlations between the other variables and `mpg`. We need to remove `car name` since it is categorical.
 
 
 ```python
-data.describe()
+data = data.drop(columns=['car name'])
 ```
-
-
-
-
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>mpg</th>
-      <th>cylinders</th>
-      <th>displacement</th>
-      <th>horsepower</th>
-      <th>weight</th>
-      <th>acceleration</th>
-      <th>model year</th>
-      <th>origin</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>count</th>
-      <td>392.000000</td>
-      <td>392.000000</td>
-      <td>392.000000</td>
-      <td>392.000000</td>
-      <td>392.000000</td>
-      <td>392.000000</td>
-      <td>392.000000</td>
-      <td>392.000000</td>
-    </tr>
-    <tr>
-      <th>mean</th>
-      <td>23.445918</td>
-      <td>5.471939</td>
-      <td>194.411990</td>
-      <td>104.469388</td>
-      <td>2977.584184</td>
-      <td>15.541327</td>
-      <td>75.979592</td>
-      <td>1.576531</td>
-    </tr>
-    <tr>
-      <th>std</th>
-      <td>7.805007</td>
-      <td>1.705783</td>
-      <td>104.644004</td>
-      <td>38.491160</td>
-      <td>849.402560</td>
-      <td>2.758864</td>
-      <td>3.683737</td>
-      <td>0.805518</td>
-    </tr>
-    <tr>
-      <th>min</th>
-      <td>9.000000</td>
-      <td>3.000000</td>
-      <td>68.000000</td>
-      <td>46.000000</td>
-      <td>1613.000000</td>
-      <td>8.000000</td>
-      <td>70.000000</td>
-      <td>1.000000</td>
-    </tr>
-    <tr>
-      <th>25%</th>
-      <td>17.000000</td>
-      <td>4.000000</td>
-      <td>105.000000</td>
-      <td>75.000000</td>
-      <td>2225.250000</td>
-      <td>13.775000</td>
-      <td>73.000000</td>
-      <td>1.000000</td>
-    </tr>
-    <tr>
-      <th>50%</th>
-      <td>22.750000</td>
-      <td>4.000000</td>
-      <td>151.000000</td>
-      <td>93.500000</td>
-      <td>2803.500000</td>
-      <td>15.500000</td>
-      <td>76.000000</td>
-      <td>1.000000</td>
-    </tr>
-    <tr>
-      <th>75%</th>
-      <td>29.000000</td>
-      <td>8.000000</td>
-      <td>275.750000</td>
-      <td>126.000000</td>
-      <td>3614.750000</td>
-      <td>17.025000</td>
-      <td>79.000000</td>
-      <td>2.000000</td>
-    </tr>
-    <tr>
-      <th>max</th>
-      <td>46.600000</td>
-      <td>8.000000</td>
-      <td>455.000000</td>
-      <td>230.000000</td>
-      <td>5140.000000</td>
-      <td>24.800000</td>
-      <td>82.000000</td>
-      <td>3.000000</td>
-    </tr>
-  </tbody>
-</table>
-</div>
-
-
-
-Let's look at correlations between the other variables and `mpg`:
 
 
 ```python
@@ -397,8 +132,8 @@ print(baseline_results.summary())
     Dep. Variable:                    mpg   R-squared:                       0.693
     Model:                            OLS   Adj. R-squared:                  0.692
     Method:                 Least Squares   F-statistic:                     878.8
-    Date:                Mon, 09 May 2022   Prob (F-statistic):          6.02e-102
-    Time:                        17:19:33   Log-Likelihood:                -1130.0
+    Date:                Wed, 19 Jul 2023   Prob (F-statistic):          6.02e-102
+    Time:                        07:58:30   Log-Likelihood:                -1130.0
     No. Observations:                 392   AIC:                             2264.
     Df Residuals:                     390   BIC:                             2272.
     Df Model:                           1                                         
@@ -596,8 +331,8 @@ print(second_results.summary())
     Dep. Variable:                    mpg   R-squared:                       0.808
     Model:                            OLS   Adj. R-squared:                  0.807
     Method:                 Least Squares   F-statistic:                     819.5
-    Date:                Mon, 09 May 2022   Prob (F-statistic):          3.33e-140
-    Time:                        17:19:34   Log-Likelihood:                -1037.6
+    Date:                Wed, 19 Jul 2023   Prob (F-statistic):          3.33e-140
+    Time:                        07:58:30   Log-Likelihood:                -1037.6
     No. Observations:                 392   AIC:                             2081.
     Df Residuals:                     389   BIC:                             2093.
     Df Model:                           2                                         
@@ -644,6 +379,7 @@ data["model year"].value_counts(sort=False)
 
 
 
+    model year
     70    29
     71    27
     72    28
@@ -657,7 +393,7 @@ data["model year"].value_counts(sort=False)
     80    27
     81    28
     82    30
-    Name: model year, dtype: int64
+    Name: count, dtype: int64
 
 
 
@@ -971,8 +707,8 @@ print(third_results.summary())
     Dep. Variable:                    mpg   R-squared:                       0.821
     Model:                            OLS   Adj. R-squared:                  0.818
     Method:                 Least Squares   F-statistic:                     252.4
-    Date:                Mon, 09 May 2022   Prob (F-statistic):          2.04e-139
-    Time:                        17:19:37   Log-Likelihood:                -1023.5
+    Date:                Wed, 19 Jul 2023   Prob (F-statistic):          2.04e-139
+    Time:                        07:58:31   Log-Likelihood:                -1023.5
     No. Observations:                 392   AIC:                             2063.
     Df Residuals:                     384   BIC:                             2095.
     Df Model:                           7                                         
@@ -1047,7 +783,7 @@ StatsModels is only one of several libraries that have implemented linear regres
 
 Scikit-learn is known for its machine learning functionality and is generally very popular for data science workflows. In particular, scikit-learn emphasizes _predictive_ machine learning approaches. Therefore it does not automatically calculate anything related to statistical significance (e.g. p-values), it only calculates the model parameters.
 
-For a more *ad-hoc* comparison of scikit-learn and statsmodels, you can read this blogpost: https://blog.thedataincubator.com/2017/11/scikit-learn-vs-statsmodels/.
+For a [comparison of scikit-learn and statsmodels click here](https://medium.com/@hsrinivasan2/linear-regression-in-scikit-learn-vs-statsmodels-568b60792991).
 
 
 ```python
@@ -1078,11 +814,11 @@ scikit-learn coefficient: {sklearn_baseline_model.coef_[0]}
     StatsModels R-Squared:    0.6926304331206254
     scikit-learn R-Squared:   0.6926304331206254
     
-    StatsModels intercept:    46.216524549017606
-    scikit-learn intercept:   46.21652454901758
+    StatsModels intercept:    46.216524549017585
+    scikit-learn intercept:   46.21652454901757
     
-    StatsModels coefficient:  -0.007647342535779581
-    scikit-learn coefficient: -0.007647342535779579
+    StatsModels coefficient:  -0.0076473425357795775
+    scikit-learn coefficient: -0.0076473425357795775
     
 
 
@@ -1109,8 +845,8 @@ scikit-learn coefficients: {sklearn_second_model.coef_}
     StatsModels R-Squared:    0.8081803058793997
     scikit-learn R-Squared:   0.8081803058793997
     
-    StatsModels intercept:     -14.347253017615683
-    scikit-learn intercept:    -14.347253017615866
+    StatsModels intercept:     -14.347253017615827
+    scikit-learn intercept:    -14.34725301761586
     
     StatsModels coefficients:  [-0.00663208  0.75731828]
     scikit-learn coefficients: [-0.00663208  0.75731828]
@@ -1137,11 +873,11 @@ scikit-learn coefficients: {sklearn_third_model.coef_}
 ```
 
     
-    StatsModels R-Squared:    0.8214780764810597
+    StatsModels R-Squared:    0.8214780764810599
     scikit-learn R-Squared:   0.8214780764810599
     
-    StatsModels intercept:     -17.218434622018293
-    scikit-learn intercept:    -17.218434622017536
+    StatsModels intercept:     -17.21843462201798
+    scikit-learn intercept:    -17.218434622017558
     
     StatsModels coefficients:  [-0.49337632  0.01989564 -0.01695114 -0.00647404  0.08057584  0.75077268
       1.4261405 ]
